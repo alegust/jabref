@@ -40,32 +40,61 @@ public class GvkParserTest {
             }
         }
     }
-
+    /**
+     * Requirements:
+     * The function returns a valid BibEntry with the same information as in the input XML-file
+     * ('gvk_empty_result_because_of_bad_query.xml')
+     * */
     @Test
     public void emptyResult() throws Exception {
         doTest("gvk_empty_result_because_of_bad_query.xml", 0, Collections.emptyList());
     }
-
+    /**
+     * Requirements:
+     * The function returns a valid BibEntry with the same information as in the input XML-file
+     * ('gvk_empty_result_because_of_bad_query.xml')
+     * */
     @Test
     public void resultFor797485368() throws Exception {
         doTest("gvk_result_for_797485368.xml", 1, Collections.singletonList("gvk_result_for_797485368.bib"));
     }
-
+    /**
+     * Requirements:
+     * The function returns valid BibEntries with the same information as in the input XML-file
+     * ('gvk_gmp.xml')
+     * */
     @Test
     public void testGMP() throws Exception {
         doTest("gvk_gmp.xml", 2, Arrays.asList("gvk_gmp.1.bib", "gvk_gmp.2.bib"));
     }
 
+    /**
+     * Added test *
+     *Requirements:
+     * The function returns a valid BibEntry with the same information as in the input XML-file
+     * ('gvk_sebveij_added_tests_2.xml')
+     * */
     @Test
     public void resultFor_sebveij_added_tests() throws Exception { /*ASSI3: For branch coverage DIY*/
         doTest("gvk_sebveij_added_tests.xml", 1, Collections.singletonList("gvk_sebveij_added_tests.bib"));
     }
-
+    /**
+     * Added test *
+     *Requirements:
+     * The function returns a valid BibEntry with the same information as in the input XML-file
+     * ('gvk_sebveij_added_tests_2.xml')
+     * */
     @Test
     public void resultFor_sebveij_added_tests_2() throws Exception { /*ASSI3: For branch coverage DIY*/
         doTest("gvk_sebveij_added_tests_2.xml", 1, Collections.singletonList("gvk_sebveij_added_tests_2.bib"));
     }
 
+    /**
+     * Added test *
+     *Requirements:
+     * The function returns a valid BibEntry where the "SUBTITLE" field matches the XML-file's elements
+     * but with a capitalized first letter ('C', 'Word', 'Word1 word2', 'Word1 word2')
+     * */
     @Test
     public void subTitleTest() throws Exception {
         try (InputStream is = GvkParserTest.class.getResourceAsStream("gvk_artificial_subtitle_test.xml")) {
