@@ -95,6 +95,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 class LayoutEntry {
+    int branchIdx = 0; /*ASSI3: For branch coverage DIY*/
+    public static boolean[] taken = new boolean[1000]; /*ASSI3: Temporary array for branch coverage DIY */
     private static final Logger LOGGER = LoggerFactory.getLogger(LayoutEntry.class);
 
     private List<LayoutFormatter> option;
@@ -112,7 +114,6 @@ class LayoutEntry {
     public LayoutEntry(StringInt si, List<Path> fileDirForDatabase, LayoutFormatterPreferences preferences) {
         this.preferences = preferences;
         this.fileDirForDatabase = Objects.requireNonNullElse(fileDirForDatabase, Collections.emptyList());
-
         type = si.i;
         switch (type) {
             case LayoutHelper.IS_LAYOUT_TEXT:
@@ -382,12 +383,10 @@ class LayoutEntry {
 
     private void doOptionField(String s) {
         List<String> v = StringUtil.tokenizeToList(s, "\n");
-
         if (v.size() == 1) {
             text = v.get(0);
         } else {
             text = v.get(0).trim();
-
             option = getOptionalLayout(v.get(1));
             // See if there was an undefined formatter:
             for (LayoutFormatter anOption : option) {
@@ -401,84 +400,304 @@ class LayoutEntry {
     }
 
     private LayoutFormatter getLayoutFormatterByName(String name) {
-        return switch (name) {
+        switch (name) {
             // For backward compatibility
-            case "HTMLToLatexFormatter", "HtmlToLatex" -> new HtmlToLatexFormatter();
+            case "HTMLToLatexFormatter", "HtmlToLatex" -> {
+                taken[0] = true; /*ASSI3: For branch coverage DIY*/
+               return new HtmlToLatexFormatter();
+            }
             // For backward compatibility
-            case "UnicodeToLatexFormatter", "UnicodeToLatex" -> new UnicodeToLatexFormatter();
-            case "OOPreFormatter" -> new OOPreFormatter();
-            case "AuthorAbbreviator" -> new AuthorAbbreviator();
-            case "AuthorAndToSemicolonReplacer" -> new AuthorAndToSemicolonReplacer();
-            case "AuthorAndsCommaReplacer" -> new AuthorAndsCommaReplacer();
-            case "AuthorAndsReplacer" -> new AuthorAndsReplacer();
-            case "AuthorFirstAbbrLastCommas" -> new AuthorFirstAbbrLastCommas();
-            case "AuthorFirstAbbrLastOxfordCommas" -> new AuthorFirstAbbrLastOxfordCommas();
-            case "AuthorFirstFirst" -> new AuthorFirstFirst();
-            case "AuthorFirstFirstCommas" -> new AuthorFirstFirstCommas();
-            case "AuthorFirstLastCommas" -> new AuthorFirstLastCommas();
-            case "AuthorFirstLastOxfordCommas" -> new AuthorFirstLastOxfordCommas();
-            case "AuthorLastFirst" -> new AuthorLastFirst();
-            case "AuthorLastFirstAbbrCommas" -> new AuthorLastFirstAbbrCommas();
-            case "AuthorLastFirstAbbreviator" -> new AuthorLastFirstAbbreviator();
-            case "AuthorLastFirstAbbrOxfordCommas" -> new AuthorLastFirstAbbrOxfordCommas();
-            case "AuthorLastFirstCommas" -> new AuthorLastFirstCommas();
-            case "AuthorLastFirstOxfordCommas" -> new AuthorLastFirstOxfordCommas();
-            case "AuthorLF_FF" -> new AuthorLF_FF();
-            case "AuthorLF_FFAbbr" -> new AuthorLF_FFAbbr();
-            case "AuthorNatBib" -> new AuthorNatBib();
-            case "AuthorOrgSci" -> new AuthorOrgSci();
-            case "CompositeFormat" -> new CompositeFormat();
-            case "CreateBibORDFAuthors" -> new CreateBibORDFAuthors();
-            case "CreateDocBook4Authors" -> new CreateDocBook4Authors();
-            case "CreateDocBook4Editors" -> new CreateDocBook4Editors();
-            case "CreateDocBook5Authors" -> new CreateDocBook5Authors();
-            case "CreateDocBook5Editors" -> new CreateDocBook5Editors();
-            case "CurrentDate" -> new CurrentDate();
-            case "DateFormatter" -> new DateFormatter();
-            case "DOICheck" -> new DOICheck();
-            case "DOIStrip" -> new DOIStrip();
-            case "EntryTypeFormatter" -> new EntryTypeFormatter();
-            case "FirstPage" -> new FirstPage();
-            case "FormatPagesForHTML" -> new FormatPagesForHTML();
-            case "FormatPagesForXML" -> new FormatPagesForXML();
-            case "GetOpenOfficeType" -> new GetOpenOfficeType();
-            case "HTMLChars" -> new HTMLChars();
-            case "HTMLParagraphs" -> new HTMLParagraphs();
-            case "Iso690FormatDate" -> new Iso690FormatDate();
-            case "Iso690NamesAuthors" -> new Iso690NamesAuthors();
-            case "JournalAbbreviator" -> new JournalAbbreviator(preferences.getJournalAbbreviationRepository());
-            case "LastPage" -> new LastPage();
-// For backward compatibility
-            case "FormatChars", "LatexToUnicode" -> new LatexToUnicodeFormatter();
-            case "NameFormatter" -> new NameFormatter();
-            case "NoSpaceBetweenAbbreviations" -> new NoSpaceBetweenAbbreviations();
-            case "Ordinal" -> new Ordinal();
-            case "RemoveBrackets" -> new RemoveBrackets();
-            case "RemoveBracketsAddComma" -> new RemoveBracketsAddComma();
-            case "RemoveLatexCommands" -> new RemoveLatexCommandsFormatter();
-            case "RemoveTilde" -> new RemoveTilde();
-            case "RemoveWhitespace" -> new RemoveWhitespace();
-            case "RisKeywords" -> new RisKeywords();
-            case "RisMonth" -> new RisMonth();
-            case "RTFChars" -> new RTFChars();
-            case "ToLowerCase" -> new ToLowerCase();
-            case "ToUpperCase" -> new ToUpperCase();
-            case "XMLChars" -> new XMLChars();
-            case "Default" -> new Default();
-            case "FileLink" -> new FileLink(fileDirForDatabase, preferences.getMainFileDirectory());
-            case "Number" -> new Number();
-            case "RisAuthors" -> new RisAuthors();
-            case "Authors" -> new Authors();
-            case "IfPlural" -> new IfPlural();
-            case "Replace" -> new Replace();
-            case "WrapContent" -> new WrapContent();
-            case "WrapFileLinks" -> new WrapFileLinks(fileDirForDatabase, preferences.getMainFileDirectory());
-            case "Markdown" -> new MarkdownFormatter();
-            case "CSLType" -> new CSLType();
-            case "ShortMonth" -> new ShortMonthFormatter();
-            case "ReplaceWithEscapedDoubleQuotes" -> new ReplaceWithEscapedDoubleQuotes();
-            default -> null;
-        };
+            case "UnicodeToLatexFormatter", "UnicodeToLatex" -> {
+                taken[1] = true; /*ASSI3: For branch coverage DIY*/
+                return new UnicodeToLatexFormatter();
+            }
+            case "OOPreFormatter" -> {
+                System.out.println("Test success");
+                taken[2] = true; /*ASSI3: For branch coverage DIY*/
+                return new OOPreFormatter();
+            }
+            case "AuthorAbbreviator" -> {
+                taken[3] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorAbbreviator();
+            }
+            case "AuthorAndToSemicolonReplacer" -> {
+                taken[4] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorAndToSemicolonReplacer();
+            }
+            case "AuthorAndsCommaReplacer" -> {
+                taken[5] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorAndsCommaReplacer();
+            }
+            case "AuthorAndsReplacer" -> {
+                taken[6] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorAndsReplacer();
+            }
+            case "AuthorFirstAbbrLastCommas" -> {
+                taken[7] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorFirstAbbrLastCommas();
+            }
+            case "AuthorFirstAbbrLastOxfordCommas" -> {
+                taken[8] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorFirstAbbrLastOxfordCommas();
+            }
+            case "AuthorFirstFirst" -> {
+                taken[9] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorFirstFirst();
+            }
+            case "AuthorFirstFirstCommas" -> {
+                taken[10] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorFirstFirstCommas();
+            }
+            case "AuthorFirstLastCommas" -> {
+                taken[11] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorFirstLastCommas();
+            }
+            case "AuthorFirstLastOxfordCommas" -> {
+                taken[12] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorFirstLastOxfordCommas();
+            }
+            case "AuthorLastFirst" -> {
+                taken[13] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLastFirst();
+            }
+            case "AuthorLastFirstAbbrCommas" -> {
+                taken[14] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLastFirstAbbrCommas();
+            }
+            case "AuthorLastFirstAbbreviator" -> {
+                taken[15] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLastFirstAbbreviator();
+            }
+            case "AuthorLastFirstAbbrOxfordCommas" -> {
+                taken[16] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLastFirstAbbrOxfordCommas();
+            }
+            case "AuthorLastFirstCommas" -> {
+                taken[17] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLastFirstCommas();
+            }
+            case "AuthorLastFirstOxfordCommas" -> {
+                taken[18] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLastFirstOxfordCommas();
+            }
+            case "AuthorLF_FF" -> {
+                taken[19] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLF_FF();
+            }
+            case "AuthorLF_FFAbbr" -> {
+                taken[20] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorLF_FFAbbr();
+            }
+            case "AuthorNatBib" -> {
+                taken[21] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorNatBib();
+            }
+            case "AuthorOrgSci" -> {
+                taken[22] = true; /*ASSI3: For branch coverage DIY*/
+                return new AuthorOrgSci();
+            }
+            case "CompositeFormat" -> {
+                taken[23] = true; /*ASSI3: For branch coverage DIY*/
+                return new CompositeFormat();
+            }
+            case "CreateBibORDFAuthors" -> {
+                taken[24] = true; /*ASSI3: For branch coverage DIY*/
+                return new CreateBibORDFAuthors();
+            }
+            case "CreateDocBook4Authors" -> {
+                taken[25] = true; /*ASSI3: For branch coverage DIY*/
+                return new CreateDocBook4Authors();
+            }
+            case "CreateDocBook4Editors" -> {
+                taken[26] = true; /*ASSI3: For branch coverage DIY*/
+                return new CreateDocBook4Editors();
+            }
+            case "CreateDocBook5Authors" -> {
+                taken[27] = true; /*ASSI3: For branch coverage DIY*/
+                return new CreateDocBook5Authors();
+            }
+            case "CreateDocBook5Editors" -> {
+                taken[28] = true; /*ASSI3: For branch coverage DIY*/
+                return new CreateDocBook5Editors();
+            }
+            case "CurrentDate" -> {
+                taken[29] = true; /*ASSI3: For branch coverage DIY*/
+                return new CurrentDate();
+            }
+            case "DateFormatter" -> {
+                taken[30] = true; /*ASSI3: For branch coverage DIY*/
+                return new DateFormatter();
+            }
+            case "DOICheck" -> {
+                taken[31] = true; /*ASSI3: For branch coverage DIY*/
+                return new DOICheck();
+            }
+            case "DOIStrip" -> {
+                taken[32] = true; /*ASSI3: For branch coverage DIY*/
+                return new DOIStrip();
+            }
+            case "EntryTypeFormatter" -> {
+                taken[33] = true; /*ASSI3: For branch coverage DIY*/
+                return new EntryTypeFormatter();
+            }
+            case "FirstPage" -> {
+                taken[34] = true; /*ASSI3: For branch coverage DIY*/
+                return new FirstPage();
+            }
+            case "FormatPagesForHTML" -> {
+                taken[35] = true; /*ASSI3: For branch coverage DIY*/
+                return new FormatPagesForHTML();
+            }
+            case "FormatPagesForXML" -> {
+                taken[36] = true; /*ASSI3: For branch coverage DIY*/
+                return new FormatPagesForXML();
+            }
+            case "GetOpenOfficeType" -> {
+                taken[37] = true; /*ASSI3: For branch coverage DIY*/
+                return new GetOpenOfficeType();
+            }
+            case "HTMLChars" -> {
+                taken[38] = true; /*ASSI3: For branch coverage DIY*/
+                return new HTMLChars();
+            }
+            case "HTMLParagraphs" -> {
+                taken[39] = true; /*ASSI3: For branch coverage DIY*/
+                return new HTMLParagraphs();
+            }
+            case "Iso690FormatDate" -> {
+                taken[40] = true; /*ASSI3: For branch coverage DIY*/
+                return new Iso690FormatDate();
+            }
+            case "Iso690NamesAuthors" -> {
+                taken[41] = true; /*ASSI3: For branch coverage DIY*/
+                return new Iso690NamesAuthors();
+            }
+            case "JournalAbbreviator" -> {
+                taken[42] = true; /*ASSI3: For branch coverage DIY*/
+                return new JournalAbbreviator(preferences.getJournalAbbreviationRepository());
+            }
+            case "LastPage" -> {
+                taken[43] = true; /*ASSI3: For branch coverage DIY*/
+                return new LastPage();
+            }
+            // For backward compatibility
+            case "FormatChars", "LatexToUnicode" -> {
+                taken[44] = true; /*ASSI3: For branch coverage DIY*/
+                return new LatexToUnicodeFormatter();
+            }
+            case "NameFormatter" -> {
+                taken[45] = true; /*ASSI3: For branch coverage DIY*/
+                return new NameFormatter();
+            }
+            case "NoSpaceBetweenAbbreviations" -> {
+                taken[46] = true; /*ASSI3: For branch coverage DIY*/
+                return new NoSpaceBetweenAbbreviations();
+            }
+            case "Ordinal" -> {
+                taken[47] = true; /*ASSI3: For branch coverage DIY*/
+                return new Ordinal();
+            }
+            case "RemoveBrackets" -> {
+                taken[48] = true; /*ASSI3: For branch coverage DIY*/
+                return new RemoveBrackets();
+            }
+            case "RemoveBracketsAddComma" -> {
+                taken[49] = true; /*ASSI3: For branch coverage DIY*/
+                return new RemoveBracketsAddComma();
+            }
+            case "RemoveLatexCommands" -> {
+                taken[50] = true; /*ASSI3: For branch coverage DIY*/
+                return new RemoveLatexCommandsFormatter();
+            }
+            case "RemoveTilde" -> {
+                taken[51] = true; /*ASSI3: For branch coverage DIY*/
+                return new RemoveTilde();
+            }
+            case "RemoveWhitespace" -> {
+                taken[52] = true; /*ASSI3: For branch coverage DIY*/
+                return new RemoveWhitespace();
+            }
+            case "RisKeywords" -> {
+                taken[53] = true; /*ASSI3: For branch coverage DIY*/
+                return new RisKeywords();
+            }
+            case "RisMonth" -> {
+                taken[54] = true; /*ASSI3: For branch coverage DIY*/
+                return new RisMonth();
+            }
+            case "RTFChars" -> {
+                taken[55] = true; /*ASSI3: For branch coverage DIY*/
+                return new RTFChars();
+            }
+            case "ToLowerCase" -> {
+                taken[56] = true; /*ASSI3: For branch coverage DIY*/
+                return new ToLowerCase();
+            }
+            case "ToUpperCase" -> {
+                taken[57] = true; /*ASSI3: For branch coverage DIY*/
+                return new ToUpperCase();
+            }
+            case "XMLChars" -> {
+                taken[58] = true; /*ASSI3: For branch coverage DIY*/
+                return new XMLChars();
+            }
+            case "Default" -> {
+                taken[59] = true; /*ASSI3: For branch coverage DIY*/
+                return new Default();
+            }
+            case "FileLink" -> {
+                taken[60] = true; /*ASSI3: For branch coverage DIY*/
+                return new FileLink(fileDirForDatabase, preferences.getMainFileDirectory());
+            }
+            case "Number" -> {
+                taken[61] = true; /*ASSI3: For branch coverage DIY*/
+                return new Number();
+            }
+            case "RisAuthors" -> {
+                taken[62] = true; /*ASSI3: For branch coverage DIY*/
+                return new RisAuthors();
+            }
+            case "Authors" -> {
+                taken[63] = true; /*ASSI3: For branch coverage DIY*/
+                return new Authors();
+            }
+            case "IfPlural" -> {
+                taken[64] = true; /*ASSI3: For branch coverage DIY*/
+                return new IfPlural();
+            }
+            case "Replace" -> {
+                taken[65] = true; /*ASSI3: For branch coverage DIY*/
+                return new Replace();
+            }
+            case "WrapContent" -> {
+                taken[66] = true; /*ASSI3: For branch coverage DIY*/
+                return new WrapContent();
+            }
+            case "WrapFileLinks" -> {
+                taken[67] = true; /*ASSI3: For branch coverage DIY*/
+                return new WrapFileLinks(fileDirForDatabase, preferences.getMainFileDirectory());
+            }
+            case "Markdown" -> {
+                taken[68] = true; /*ASSI3: For branch coverage DIY*/
+                return new MarkdownFormatter();
+            }
+            case "CSLType" -> {
+                taken[69] = true; /*ASSI3: For branch coverage DIY*/
+                return new CSLType();
+            }
+            case "ShortMonth" -> {
+                taken[70] = true; /*ASSI3: For branch coverage DIY*/
+                return new ShortMonthFormatter();
+            }
+            case "ReplaceWithEscapedDoubleQuotes" -> {
+                taken[71] = true; /*ASSI3: For branch coverage DIY*/
+                return new ReplaceWithEscapedDoubleQuotes();
+            }
+            default -> {
+                taken[72] = true; /*ASSI3: For branch coverage DIY*/
+                return null;
+            }
+        }
     }
 
     /**
@@ -530,7 +749,7 @@ class LayoutEntry {
         return invalidFormatter;
     }
 
-    public static List<List<String>> parseMethodsCalls(String calls) {
+    public static List<List<String>>  parseMethodsCalls(String calls) {
         List<List<String>> result = new ArrayList<>();
 
         char[] c = calls.toCharArray();
