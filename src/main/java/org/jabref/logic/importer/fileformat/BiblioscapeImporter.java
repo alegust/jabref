@@ -346,7 +346,7 @@ public class BiblioscapeImporter extends Importer {
             }else{taken[78] = true; /*ASSI3: For branch coverage DIY*/}
             previousLine.append(line.trim());
         }
-
+        taken[79] = true; /*ASSI3: For branch coverage DIY*/
         return new ParserResult(bibItems);
     }
 }
