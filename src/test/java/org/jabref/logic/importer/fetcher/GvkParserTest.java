@@ -12,6 +12,7 @@ import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.testutils.category.FetcherTest;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,6 +57,16 @@ public class GvkParserTest {
     }
 
     @Test
+    public void resultFor_sebveij_added_tests() throws Exception { /*ASSI3: For branch coverage DIY*/
+        doTest("gvk_sebveij_added_tests.xml", 1, Collections.singletonList("gvk_sebveij_added_tests.bib"));
+    }
+
+    @Test
+    public void resultFor_sebveij_added_tests_2() throws Exception { /*ASSI3: For branch coverage DIY*/
+        doTest("gvk_sebveij_added_tests_2.xml", 1, Collections.singletonList("gvk_sebveij_added_tests_2.bib"));
+    }
+
+    @Test
     public void subTitleTest() throws Exception {
         try (InputStream is = GvkParserTest.class.getResourceAsStream("gvk_artificial_subtitle_test.xml")) {
             GvkParser parser = new GvkParser();
@@ -77,10 +88,9 @@ public class GvkParserTest {
 
     }
 
-    @Test
-    public void printCoverage(){
+    @AfterAll
+    public static void printCoverage(){ /*ASSI3: For branch coverage DIY*/
         DIYCoverage.printAllTrue();
-        DIYCoverage.cleanArray(0);
     }
 
 }

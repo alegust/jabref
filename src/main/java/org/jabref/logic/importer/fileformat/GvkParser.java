@@ -104,6 +104,7 @@ public class GvkParser implements Parser {
 
         List<Element> datafields = getChildren("datafield", e);
         for (Element datafield : datafields) {
+            taken[131] = true; /*ASSI3: For branch coverage DIY*/
             String tag = datafield.getAttribute("tag");
             LOGGER.debug("tag: " + tag);
 
@@ -357,6 +358,7 @@ public class GvkParser implements Parser {
                 url = getSubfield("a", datafield);
             }else{taken[69] = true; /*ASSI3: For branch coverage DIY*/}
         }
+        taken[132] = true; /*ASSI3: For branch coverage DIY*/
 
         // Abfangen von Nulleintraegen
         if (quelle == null) {
