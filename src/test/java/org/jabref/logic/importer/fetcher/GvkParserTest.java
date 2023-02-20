@@ -68,7 +68,13 @@ public class GvkParserTest {
             assertEquals(Optional.of("Word"), entries.get(2).getField(StandardField.SUBTITLE));
             assertEquals(Optional.of("Word1 word2"), entries.get(3).getField(StandardField.SUBTITLE));
             assertEquals(Optional.of("Word1 word2"), entries.get(4).getField(StandardField.SUBTITLE));
+            for(int k = 0; k < parser.taken.length; k++){ /*ASSI3: For branch coverage DIY*/
+                if(parser.taken[k]) {
+                    DIYCoverage.takenTest[0][k] = true;
+                }
+            }
         }
+
     }
 
     @Test
