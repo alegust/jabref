@@ -139,7 +139,7 @@ public class BibEntry implements Cloneable {
      * @param sourceEntry type of the cross-referenced BibEntry
      * @return the mapped field or null if there is no valid mapping available
      */
-    private Optional<Field> getSourceField(Field targetField, EntryType targetEntry, EntryType sourceEntry) {
+    Optional<Field> getSourceField(Field targetField, EntryType targetEntry, EntryType sourceEntry) {
         //// 1. Sort out forbidden fields
         if ((targetField == StandardField.IDS) ||
                 (targetField == StandardField.CROSSREF) ||

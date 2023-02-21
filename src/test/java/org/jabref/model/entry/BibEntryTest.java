@@ -21,6 +21,7 @@ import org.jabref.model.entry.field.OrFields;
 import org.jabref.model.entry.field.SpecialField;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.field.UnknownField;
+import org.jabref.model.entry.types.EntryType;
 import org.jabref.model.entry.types.StandardEntryType;
 
 import com.google.common.collect.Sets;
@@ -41,6 +42,29 @@ import org.jabref.DIYcoverage.DIYCoverage; /*ASSI3: Extra class for coverage*/
 @Execution(CONCURRENT)
 class BibEntryTest {
     private BibEntry entry = new BibEntry();
+
+    // Tests for improved coverage in getSouceField
+
+    @Test
+    void testGetSourceField(){
+
+        // Requirements being tested
+        // 1. If user tries to mapp entry field onto a forbidden field, method should return null
+        // 2.
+        Field targetField = StandardField.IDS;
+        EntryType targetEntry = StandardEntryType.InBook;
+        EntryType sourceEntry = StandardEntryType.Book;
+
+        assertEquals(Optional.empty(), entry.getSourceField(targetField,targetEntry, sourceEntry));
+
+        Field targetField2 = StandardField.AUTHOR;
+        EntryType targetEntry2 = StandardEntryType.InBook;
+        EntryType sourceEntry2 = StandardEntryType.Book;
+
+        assertEquals(Optional.of(StandardField.AUTHOR), entry.getSourceField(targetField2,targetEntry2, sourceEntry2));
+
+    }
+
     @Test
     void testDefaultConstructor() {
         assertEquals(StandardEntryType.Misc, entry.getType());
