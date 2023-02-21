@@ -9,6 +9,7 @@ import org.jabref.model.entry.field.SpecialField;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.field.UnknownField;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -102,8 +103,8 @@ public class LayoutEntryTest {
         }
     }
 
-    @Test
-    public void testCoverage(){
+    @AfterAll
+    public static void testCoverage(){
         DIYCoverage.printAllTrue();
         DIYCoverage.cleanArray(1);
 

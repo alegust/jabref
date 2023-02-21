@@ -15,12 +15,15 @@ public class DIYCoverage {
     }
 
     public static void printAllTrue(){
+        int branchesTaken = 0;
         for(int i = 0; i < takenTest.length; i++){
             for(int j = 0; j < takenTest[i].length; j++){
                 if(takenTest[i][j]) {
+                    branchesTaken++;
                     System.out.println("Method number: " + i + " Number: " + j + " Status: " + takenTest[i][j]);
                 }
             }
         }
+        System.out.println("Number of branches taken: " + branchesTaken);
     }
 }
