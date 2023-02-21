@@ -2,6 +2,9 @@ package org.jabref.logic.layout;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import org.jabref.DIYcoverage.DIYCoverage;
 import org.jabref.model.entry.BibEntry;
@@ -9,8 +12,10 @@ import org.jabref.model.entry.field.SpecialField;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.field.UnknownField;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -31,7 +36,6 @@ import static org.mockito.Mockito.mock;
  */
 
 public class LayoutEntryTest {
-
     private BibEntry mBTE;
 
     @BeforeEach
@@ -102,12 +106,52 @@ public class LayoutEntryTest {
         }
     }
 
+    /**
+     * Test for asserting the string which is inputted together with the layout format is stored as text.
+     */
     @Test
-    public void testCoverage(){
-        DIYCoverage.printAllTrue();
-        DIYCoverage.cleanArray(1);
+    public void authorInputTest(){
+        StringInt sI = new StringInt("AuthorXYZ" + "\n" + "AuthorAbbreviator", 5);
+        List<Path> lP = Arrays.asList();
+        LayoutFormatterPreferences layoutFormatterPreferences;
+        layoutFormatterPreferences = mock(LayoutFormatterPreferences.class, Answers.RETURNS_DEEP_STUBS);
+        LayoutEntry LE = new LayoutEntry(sI, lP, layoutFormatterPreferences );
+        assertEquals("AuthorXYZ", LE.getText());
+        for(int k = 0; k < LayoutEntry.taken.length; k++){ /*ASSI3: For branch coverage DIY*/
+            if(LayoutEntry.taken[k]) {
+                DIYCoverage.takenTest[1][k] = true;
+            }
+        }
+        //DIYCoverage.printAllTrue();
+    }
+
+    /**
+     * Test for checking that the type of the LayoutEntry is the desired one specified in the class LayoutHelper
+     */
+    @Test
+    public void typeTest(){
+        StringInt sI = new StringInt("XMLXYZ" + "\n" + "AuthorAndsCommaReplacer", 5);
+        List<Path> lP = Arrays.asList();
+        LayoutFormatterPreferences layoutFormatterPreferences;
+        layoutFormatterPreferences = mock(LayoutFormatterPreferences.class, Answers.RETURNS_DEEP_STUBS);
+        LayoutEntry LE = new LayoutEntry(sI, lP, layoutFormatterPreferences );
+        int type = LE.getType();
+        int optionField = LayoutHelper.IS_OPTION_FIELD;
+        assertEquals(optionField, type);
+        for(int k = 0; k < LayoutEntry.taken.length; k++){ /*ASSI3: For branch coverage DIY*/
+            if(LayoutEntry.taken[k]) {
+                DIYCoverage.takenTest[1][k] = true;
+            }
+        }
+        //DIYCoverage.printAllTrue();
 
     }
+
+    @AfterAll
+    public static void printTest() {
+        DIYCoverage.printAllTrue();
+    }
+
 
 
 

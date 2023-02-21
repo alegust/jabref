@@ -832,4 +832,9 @@ class LayoutEntry {
     public String getText() {
         return text;
     }
+
+    public int getType() {
+        return type;
+    }
+
 }
