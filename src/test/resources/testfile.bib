@@ -1,0 +1,14 @@
+
+------
+@mastersthesis{BlomkvistKarlsson1608961,
+   author = {Blomkvist Karlsson, Vera},
+   institution = {KTH, School of Electrical Engineering and Computer Science (EECS)},
+   pages = {89},
+   school = {KTH, School of Electrical Engineering and Computer Science (EECS)},
+   title = {Cumulus - translating CUDA to sequential C++ : Simplifying the process of debugging CUDA programs},
+   series = {TRITA-EECS-EX},
+   number = {2021:637},
+   keywords = {Clang, Code generation, CUDA, Debugging, Parallel computing, Clang, Kodgenerering, CUDA, Felsökning, Parallella beräkningar},
+   abstract = {Due to their highly parallel architecture, Graphics Processing Units (GPUs) offer increased performance for programs benefiting from parallel execution. A range of technologies exist which allow GPUs to be used for general-purpose programming, NVIDIA’s CUDA platform is one example. CUDA makes it possible to combine source code written for GPUs and Central Processing Units (CPUs) in the same program. Those sections that benefit from parallel execution can be written as CUDA kernels and will be executed on the GPU. With CUDA it is common to have tens, or even hundreds, of thousands of threads running in parallel. While the high level of parallelism can offer significant performance increases for executed programs, it can also make CUDA programs hard to debug. Although debuggers for CUDA exist, they can not be used in the same way as standard debuggers, and they do not reduce the difficulties of reasoning about parallel execution. As a result, developers may feel compelled to fall back to inefficient debugging methods, such as relying on print statements. This project examines two possible approaches for creating a tool which simplifies the process of debugging CUDA programs, by transforming a parallel CUDA program to a sequential program in another high level language: one method centered around the Clang Abstract Syntax Tree (AST), and the other method centered around LLVM Intermediate Representation (IR) code. The method using Clang was found to be the most suitable for the purpose of translating CUDA, as it enables modifying only select parts, such as kernels, of the input program. Thus, the tool Cumulus was developed as a Clang plugin. Cumulus translates parallel CUDA code into sequential C++ code, allowing developers to use any method available for C++ debugging to debug their CUDA program. Cumulus is indicated to be a potential aid in debugging CUDA programs, by providing developers with increased flexibility.  },
+   year = {2021}
+}
