@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.jabref.DIYcoverage.DIYCoverage;
 import org.jabref.logic.bibtex.BibEntryAssert;
 import org.jabref.logic.importer.fileformat.GvkParser;
 import org.jabref.model.entry.BibEntry;
@@ -16,8 +17,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import org.jabref.DIYcoverage.DIYCoverage; /*ASSI3: Extra class for coverage*/
 @FetcherTest
 public class GvkParserTest {
     private void doTest(String xmlName, int expectedSize, List<String> resourceNames) throws Exception {

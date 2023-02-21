@@ -3,6 +3,7 @@ package org.jabref.logic.layout;
 import java.io.IOException;
 import java.io.StringReader;
 
+import org.jabref.DIYcoverage.DIYCoverage;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.SpecialField;
 import org.jabref.model.entry.field.StandardField;
@@ -93,5 +94,22 @@ public class LayoutEntryTest {
         assertEquals("foo", (LayoutEntry.parseMethodsCalls("bla(test),foo(fark)").get(1)).get(0));
         assertEquals("test", (LayoutEntry.parseMethodsCalls("bla(test),foo(fark)").get(0)).get(1));
         assertEquals("fark", (LayoutEntry.parseMethodsCalls("bla(test),foo(fark)").get(1)).get(1));
+
+        for(int k = 0; k < LayoutEntry.taken.length; k++){ /*ASSI3: For branch coverage DIY*/
+            if(LayoutEntry.taken[k]) {
+                DIYCoverage.takenTest[1][k] = true;
+            }
+        }
     }
+
+    @Test
+    public void testCoverage(){
+        DIYCoverage.printAllTrue();
+        DIYCoverage.cleanArray(1);
+
+    }
+
+
+
+
 }
