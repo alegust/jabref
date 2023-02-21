@@ -29,6 +29,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.parallel.Execution;
+import scala.annotation.meta.field;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -46,24 +47,29 @@ class BibEntryTest {
     // Tests for improved coverage in getSouceField
 
     @Test
-    void testGetSourceField(){
+    void testGetSourceFieldBadEntryMapping(){
 
-        // Requirements being tested
-        // 1. If user tries to mapp entry field onto a forbidden field, method should return null
-        // 2.
+        //If user tries to mapp entry field onto a forbidden field, method should return null
         Field targetField = StandardField.IDS;
         EntryType targetEntry = StandardEntryType.InBook;
         EntryType sourceEntry = StandardEntryType.Book;
 
         assertEquals(Optional.empty(), entry.getSourceField(targetField,targetEntry, sourceEntry));
 
-        Field targetField2 = StandardField.AUTHOR;
-        EntryType targetEntry2 = StandardEntryType.InBook;
-        EntryType sourceEntry2 = StandardEntryType.Book;
+    }
+    @Test
+    void testGetSourceFieldAuthor(){
+        // If user tries to map entry with targetField AUTHOR, targetEntry inBook, sourceEntry Book, method should return
+        // Author
+        Field targetField = StandardField.AUTHOR;
+        EntryType targetEntry = StandardEntryType.InBook;
+        EntryType sourceEntry = StandardEntryType.Book;
 
-        assertEquals(Optional.of(StandardField.AUTHOR), entry.getSourceField(targetField2,targetEntry2, sourceEntry2));
+        assertEquals(Optional.of(StandardField.AUTHOR), entry.getSourceField(targetField,targetEntry, sourceEntry));
 
     }
+
+
 
     @Test
     void testDefaultConstructor() {
