@@ -1,10 +1,12 @@
 package org.jabref.logic.importer.fileformat;
 
+import org.jabref.DIYcoverage.DIYCoverage; /*ASSI3: Extra class for coverage*/
 import java.nio.file.Path;
 import java.util.Collections;
 
 import org.jabref.logic.util.StandardFileType;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,5 +47,19 @@ public class BiblioscapeImporterTest {
         Path file = Path.of(BiblioscapeImporter.class.getResource("BiblioscapeImporterTestCorrupt.txt").toURI());
         assertEquals(Collections.emptyList(),
                 importer.importDatabase(file).getDatabase().getEntries());
+        for(int k = 0; k < importer.taken.length; k++){ /*ASSI3: For branch coverage DIY*/
+            if(importer.taken[k]) {
+                DIYCoverage.takenTest[0][k] = true;
+            }
+        }
+    }
+
+    @AfterAll
+    public static void printCoverage(){
+        DIYCoverage.printAllTrue();
+        DIYCoverage.cleanArray(0);
     }
 }
+
+
+
